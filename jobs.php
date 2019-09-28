@@ -2,7 +2,7 @@
 
 require('app/models/Job.php');
 require('app/models/Project.php');
-
+require_once('app/models/Printable.php');
 
 $job1 = new Job('PHP Developer', 'PHP is an awesome job!!!');
 $job1->months = 16;
@@ -38,14 +38,14 @@ $projects = [ $project1];
     return "$years years $extraMonths months";
   }
   
-  function printElement($job) {
+  function printElement(Printable $job) {
     if($job->visible == false) {
       return;
     }
   
     echo '<li class="work-position">';
     echo '<h5>' . $job->getTitle() . '</h5>';
-    echo '<p>' . $job->description . '</p>';
+    echo '<p>' . $job->getDescription() . '</p>';
     echo '<p>' . $job->getDurationAsString() . '</p>';
     echo '<strong>Achievements:</strong>';
     echo '<ul>';
