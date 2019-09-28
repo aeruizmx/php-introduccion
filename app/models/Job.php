@@ -2,8 +2,6 @@
 
 namespace App\models;
 
-require_once('BaseElement.php');
-
 class Job extends BaseElement {
     
     public function __construct($title, $description) {
