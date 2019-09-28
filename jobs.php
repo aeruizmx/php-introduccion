@@ -4,6 +4,10 @@ require('app/models/Job.php');
 require('app/models/Project.php');
 require_once('app/models/Printable.php');
 
+use App\models\{Job, Project, Printable};
+
+require('lib1/Project.php');
+
 $job1 = new Job('PHP Developer', 'PHP is an awesome job!!!');
 $job1->months = 16;
 
@@ -25,6 +29,8 @@ $project1 = new Project('Backend para PHP', 'Se hizo con Framework Laravel');
 $project1->months = 5;
 
 $projects = [ $project1];
+
+$project_lib = new Lib1\Project();
 
   function getDuration($months){
     $years = floor ($months / 12);
