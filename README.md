@@ -1,2 +1,5 @@
 # intro-php
-Proyecto de introducción a PHP
+Proyecto de Curso de Introducción a PHP de Platzi
+
+# Author
+A. Ruiz
