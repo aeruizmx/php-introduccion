@@ -1,35 +1,8 @@
 <?php
 
-class Job{
-    private $title;
-    public $description;
-    public $visible = true;
-    public $months;
+require('app/models/Job.php');
+require('app/models/Project.php');
 
-    public function __construct($title, $description) {
-        $this->setTitle($title);
-        $this->description = $description;
-    }
-
-    public function setTitle($t) {
-        if($t == '') {
-            $this->title = 'N/A';
-        } else {
-            $this->title = $t;
-        }
-    }
-
-    public function getTitle() {
-        return $this->title;
-    }
-
-    public function getDurationAsString() {
-        $years = floor($this->months / 12);
-        $extraMonths = $this->months % 12;
-      
-        return "$years years $extraMonths months";
-    }
-}
 
 $job1 = new Job('PHP Developer', 'PHP is an awesome job!!!');
 $job1->months = 16;
@@ -46,39 +19,12 @@ $job4->months = 24;
 $job5 = new Job('Java', 'Java is an awesome job!!!');
 $job5->months = 3;
 
-$jobs = [
-    $job1, $job2, $job3, $job4, $job5
-    // [
-    //   'title' => 'PHP Developer',
-    //   'description' => 'PHP is an awesome job!!!',
-    //   'visible' => true,
-    //   'months' => 16
-    // ],
-    // [
-    //   'title' => 'Python Dev',
-    //   'description' => 'Python is an awesome job!!!',
-    //   'visible' => true,
-    //   'months' => 14
-    // ],
-    // [
-    //   'title' => 'Devops',
-    //   'description' => 'Devops is an awesome job!!!',
-    //   'visible' => true,
-    //   'months' => 5
-    // ],
-    // [
-    //   'title' => 'Vue Dev',
-    //   'description' => 'Vue is an awesome job!!!',
-    //   'visible' => true,
-    //   'months' => 24
-    // ],
-    // [
-    //   'title' => 'Java Dev',
-    //   'description' => 'Java is an awesome job!!!',
-    //   'visible' => true,
-    //   'months' => 3
-    // ]
-  ];
+$jobs = [ $job1, $job2, $job3, $job4, $job5 ];
+
+$project1 = new Project('Backend para PHP', 'Se hizo con Framework Laravel');
+$project1->months = 5;
+
+$projects = [ $project1];
 
   function getDuration($months){
     $years = floor ($months / 12);
@@ -92,7 +38,7 @@ $jobs = [
     return "$years years $extraMonths months";
   }
   
-  function printJob($job) {
+  function printElement($job) {
     if($job->visible == false) {
       return;
     }
