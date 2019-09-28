@@ -57,4 +57,25 @@ for ($i=0; $i < 3; $i++) {
     $mas_grandes .= $grandes[$i]. " ";
 }
 echo $mas_grandes;
+
+//EJERCICIO 1
+$suma1 = 32+3;
+$suma2 = 3*(2+3);
+
+echo "<p> Suma 1 = $suma1 / Suma 2 = $suma2 </p>";
+
+//EJERCICIO 2
+$valor = "10";
+if($valor > 5 && $valor < 10){
+	echo "<p>$valor es mayor que 5 pero menor que 10. </p>";
+}
+if($valor >= 0 && $valor <=20 ){
+	echo "<p>$valor es mayor o igual a 0 pero menor o igual a 20. </p>";
+}
+if($valor === "10"){
+	echo "<p>$valor es igual a “10” asegurando que el tipo de dato sea cadena.</p>";
+}
+if(($valor >0 && $valor <5)|| ($valor > 10 && $valor < 15)){
+	echo "<p>$valor es mayor a 0 pero menor a 5 o es mayor a 10 pero menor a 15.</p>";
+}
 ?>
