@@ -1,3 +1,7 @@
+<?php
+$lastname = 'RUIZ';
+$name = "ANDRES $lastname"; 
+?>
 <!doctype html>
 <html lang="en">
 
@@ -21,7 +25,7 @@
         <img id="profile-picture" src="https://ui-avatars.com/api/?name=John+Doe&size=255" alt="">
       </div>
       <div class="col">
-        <h1><?php echo "ANDRES RUIZ"; ?></h1>
+        <h1><?php echo $name ?></h1>
         <h2>PHP Developer</h2>
         <ul>
           <li>Mail: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aec6cbcddac1dceec3cfc7c280cdc1c3">[email&#160;protected]</a></li>
