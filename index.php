@@ -1,18 +1,37 @@
 <?php
 $lastname = 'RUIZ';
 $name = "ANDRES $lastname"; 
+$limit_months = 12;
 $jobs = [
   [
     'title' => 'PHP Developer',
-    'description' => 'PHP is an awesome job!!!'
+    'description' => 'PHP is an awesome job!!!',
+    'visible' => true,
+    'months' => 6
   ],
   [
     'title' => 'Python Dev',
-    'description' => 'Python is an awesome job!!!'
+    'description' => 'Python is an awesome job!!!',
+    'visible' => true,
+    'months' => 4
   ],
   [
     'title' => 'Devops',
-    'description' => 'Devops is an awesome job!!!'
+    'description' => 'Devops is an awesome job!!!',
+    'visible' => true,
+    'months' => 5
+  ],
+  [
+    'title' => 'Vue Dev',
+    'description' => 'Vue is an awesome job!!!',
+    'visible' => true,
+    'months' => 2
+  ],
+  [
+    'title' => 'Java Dev',
+    'description' => 'Java is an awesome job!!!',
+    'visible' => true,
+    'months' => 3
   ]
 ];
 ?>
@@ -64,10 +83,19 @@ $jobs = [
           <h3 class="border-bottom-gray" >Work Experience</h3>
           <ul>
             <?php
+            $total_months = 0;
             for($idx = 0;$idx < count($jobs); $idx++) {
+              $total_months += $jobs[$idx]['months'];
+              if($total_months > $limit_months){
+                break;
+              }
+              if($jobs[$idx]['visible'] == false){
+                continue;
+              }
               echo '<li class="work-position">';
               echo '<h5>' . $jobs[$idx]['title'] . '</h5>';
               echo '<p>' . $jobs[$idx]['description'] . '</p>';
+              echo '<p>' . $total_months . ' meses </p>';
               echo '<strong>Achievements:</strong>';
               echo '<ul>';
               echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
@@ -75,29 +103,9 @@ $jobs = [
               echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
               echo '</ul>';
               echo '</li>';
+              
             }
              ?>
-            
-            <li class="work-position">
-                <h5><?php echo $jobs[1]['title']; ?></h5>
-                <p><?php echo $jobs[1]['description']; ?></p>
-                <strong>Achievements:</strong>
-                <ul>
-                  <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                  <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                  <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                </ul>
-              </li>
-              <li class="work-position">
-                  <h5><?php echo $jobs[2]['title']; ?></h5>
-                  <p><?php echo $jobs[2]['description']; ?></p>
-                  <strong>Achievements:</strong>
-                  <ul>
-                    <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                    <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                    <li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>
-                  </ul>
-                </li>
           </ul>
         </div>
         <div>
