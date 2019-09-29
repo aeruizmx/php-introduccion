@@ -1,11 +1,10 @@
 <?php
+require_once('vendor/autoload.php');
 require_once('jobs.php');
 
 $lastname = 'RUIZ';
 $name = "ANDRES $lastname"; 
 $limit_months = 2000;
-
-
 
 ?>
 <!doctype html>
