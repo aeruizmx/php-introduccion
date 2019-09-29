@@ -1,6 +1,41 @@
 <?php
-var_dump($_GET);
-var_dump($_POST);
+require_once('vendor/autoload.php');
+
+use Illuminate\Database\Capsule\Manager as Capsule;
+use App\models\Job;
+
+$capsule = new Capsule;
+
+$capsule->addConnection([
+    'driver'    => 'mysql',
+    'host'      => 'localhost',
+    'database'  => 'cursophp',
+    'username'  => 'remote',
+    'password'  => 'Soporte09',
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+]);
+
+// Make this Capsule instance available globally via static methods... (optional)
+$capsule->setAsGlobal();
+
+// Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
+$capsule->bootEloquent();
+
+
+// var_dump($_GET);
+// var_dump($_POST);
+if(!empty($_POST)){
+    $job = new Job();
+    $job->title = $_POST['title'];
+    $job->description = $_POST['description'];
+    $job->months = $_POST['months'];
+    $job->visible = true;
+    $job->save();
+}
+
+
 ?>
 <html>
     <head>
@@ -16,6 +51,8 @@ var_dump($_POST);
             <input type="text" name="title" ><br>
             <label for="">Description:</label>
             <input type="text" name="description"><br>
+            <label for="">Meses:</label>
+            <input type="numeric" name="months"><br>
             <button type="submit">Save</button>
         </form>
     </body>
