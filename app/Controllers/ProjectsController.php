@@ -7,7 +7,7 @@ use App\models\Project;
 class ProjectsController extends BaseController{
     
     public function create(){
-        echo $this->renderHTML('addJob.twig');
+        return $this->renderHTML('addJob.twig');
     }
     public function store($request){
         if($request->getMethod() == 'POST'){
@@ -19,6 +19,6 @@ class ProjectsController extends BaseController{
             $project->visible = true;
             $project->save();
         }  
-        echo $this->renderHTML('addProject.twig');
+        return $this->renderHTML('addProject.twig');
     }
 }

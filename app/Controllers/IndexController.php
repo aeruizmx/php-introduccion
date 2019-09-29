@@ -13,6 +13,6 @@ class IndexController extends BaseController{
         $name = 'Andrés Ruiz';
         $limit_months = 2000;
 
-        return  $this->renderHTML('index.twig', [ 'name'=>$name, 'jobs'=>$jobs, 'projects'=>$projects]);
+        return $this->renderHTML('index.twig', [ 'name'=>$name, 'jobs'=>$jobs, 'projects'=>$projects]);
     }
 }

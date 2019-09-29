@@ -7,7 +7,7 @@ use App\models\Job;
 class JobsController extends BaseController{
     
     public function create(){
-        echo $this->renderHTML('addJob.twig');
+        return $this->renderHTML('addJob.twig');
     }
     public function store($request){
         if($request->getMethod() == 'POST'){
@@ -19,6 +19,6 @@ class JobsController extends BaseController{
             $job->visible = true;
             $job->save();
         } 
-        echo $this->renderHTML('addJob.twig');
+        return $this->renderHTML('addJob.twig');
     }
 }
