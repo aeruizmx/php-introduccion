@@ -1,9 +1,9 @@
 <?php
-require_once('vendor/autoload.php');
+
+use App\Models\Job;
 require_once('jobs.php');
 
-$lastname = 'RUIZ';
-$name = "ANDRES $lastname"; 
+$name = 'Andrés Ruiz';
 $limit_months = 2000;
 
 ?>
@@ -79,21 +79,6 @@ $limit_months = 2000;
             }
              ?>
             </ul>
-            <div class="project">
-                <h5>Project X</h5>
-                <div class="row">
-                    <div class="col-3">
-                        <img id="profile-picture" src="https://ui-avatars.com/api/?name=John+Doe&size=255" alt="">
-                      </div>
-                      <div class="col">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius earum corporis at accusamus quisquam hic quos vel? Tenetur, ullam veniam consequatur esse quod cum, quam cupiditate assumenda natus maiores aperiam.</p>
-                        <strong>Technologies used:</strong>
-                        <span class="badge badge-secondary">PHP</span>
-                        <span class="badge badge-secondary">HTML</span>
-                        <span class="badge badge-secondary">CSS</span>
-                      </div>
-                </div>
-            </div>
           </div>
       </div>
       <div class="col-3">
