@@ -47,13 +47,20 @@ $map->get('index','/',[
 ]);
 $map->get('addJobs','/jobs/add',[
     'controller' => 'App\Controllers\JobsController',
-    'action' => 'index'
+    'action' => 'create'
+]);
+$map->post('saveJobs','/jobs/add',[
+    'controller' => 'App\Controllers\JobsController',
+    'action' => 'store'
 ]);
 $map->get('addProjects','/projects/add',[
     'controller' => 'App\Controllers\ProjectsController',
-    'action' => 'index'
+    'action' => 'create'
 ]);
-
+$map->post('saveProjects','/projects/add',[
+    'controller' => 'App\Controllers\ProjectsController',
+    'action' => 'store'
+]);
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 function printElement($job) {
@@ -78,9 +85,8 @@ if(!$route){
 }else{
     $handlerData = $route->handler;
     $controllerName = $handlerData['controller'];
-    //$actionName = new $handlerData['action'];
-
+    $actionName = $handlerData['action'];
     $controller = new $controllerName;
-    $controller->index();
+    $controller->$actionName($request);
     
 }

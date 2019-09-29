@@ -6,12 +6,16 @@ use App\models\Job;
 
 class JobsController{
     
-    public function index(){
-        if(!empty($_POST)){
+    public function create(){
+        include '../views/addJob.php';
+    }
+    public function store($request){
+        if($request->getMethod() == 'POST'){
+            $postData = $request->getParsedBody();
             $job = new Job();
-            $job->title = $_POST['title'];
-            $job->description = $_POST['description'];
-            $job->months = $_POST['months'];
+            $job->title = $postData['title'];
+            $job->description = $postData['description'];
+            $job->months = $postData['months'];
             $job->visible = true;
             $job->save();
         } 

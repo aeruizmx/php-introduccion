@@ -6,12 +6,16 @@ use App\models\Project;
 
 class ProjectsController{
     
-    public function index(){
-        if(!empty($_POST)){
+    public function create(){
+        include '../views/addProject.php';
+    }
+    public function store($request){
+        if($request->getMethod() == 'POST'){
+            $postData = $request->getParsedBody();
             $project = new Project();
-            $project->title = $_POST['title'];
-            $project->description = $_POST['description'];
-            $project->months = $_POST['months'];
+            $project->title = $postData['title'];
+            $project->description = $postData['description'];
+            $project->months = $postData['months'];
             $project->visible = true;
             $project->save();
         }  
