@@ -6,7 +6,9 @@ error_reporting(E_ALL);
 
 require_once('../vendor/autoload.php');
 
+use Aura\Router\Matcher;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Aura\Router\RouterContainer;
 
 $capsule = new Capsule;
 
@@ -35,11 +37,19 @@ $request = Zend\Diactoros\ServerRequestFactory::fromGlobals(
     $_FILES
 );
 
-$route = $_GET['route'] ?? '/';
-if($route == '/'){
-    require '../index.php';
-}else if( $route == 'addJob'){
-    require '../addJob.php';
-}elseif( $route == 'addProject'){
-    require '../addProject.php';
+$routerContainer = new RouterContainer();
+
+$map = $routerContainer->getMap();
+
+$map->get('index','/','../index.php');
+$map->get('addJobs','/jobs/add','../addJob.php');
+$map->get('addProjects','/projects/add','../addProject.php');
+
+$matcher = $routerContainer->getMatcher();
+$route = $matcher->match($request);
+
+if(!$route){
+ echo 'No route';   
+}else{
+    require $route->handler;
 }
