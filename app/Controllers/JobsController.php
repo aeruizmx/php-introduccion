@@ -4,10 +4,10 @@ namespace App\Controllers;
 
 use App\models\Job;
 
-class JobsController{
+class JobsController extends BaseController{
     
     public function create(){
-        include '../views/addJob.php';
+        echo $this->renderHTML('addJob.twig');
     }
     public function store($request){
         if($request->getMethod() == 'POST'){
@@ -19,6 +19,6 @@ class JobsController{
             $job->visible = true;
             $job->save();
         } 
-        include '../views/addJob.php';
+        echo $this->renderHTML('addJob.twig');
     }
 }
