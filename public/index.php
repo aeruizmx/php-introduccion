@@ -61,6 +61,14 @@ $map->post('saveProjects','/projects/add',[
     'controller' => 'App\Controllers\ProjectsController',
     'action' => 'store'
 ]);
+$map->get('addUsers','/users/add',[
+    'controller' => 'App\Controllers\UsersController',
+    'action' => 'create'
+]);
+$map->post('saveUsers','/users/add',[
+    'controller' => 'App\Controllers\UsersController',
+    'action' => 'store'
+]);
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 function printElement($job) {
