@@ -6,9 +6,12 @@ error_reporting(E_ALL);
 
 require_once('../vendor/autoload.php');
 
+session_start();
+
 use Aura\Router\Matcher;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Aura\Router\RouterContainer;
+use Zend\Diactoros\Response\RedirectResponse;
 
 $capsule = new Capsule;
 
@@ -47,27 +50,33 @@ $map->get('index','/',[
 ]);
 $map->get('addJobs','/jobs/add',[
     'controller' => 'App\Controllers\JobsController',
-    'action' => 'create'
+    'action' => 'create',
+    'auth' => true
 ]);
 $map->post('saveJobs','/jobs/add',[
     'controller' => 'App\Controllers\JobsController',
-    'action' => 'store'
+    'action' => 'store',
+    'auth' => true
 ]);
 $map->get('addProjects','/projects/add',[
     'controller' => 'App\Controllers\ProjectsController',
-    'action' => 'create'
+    'action' => 'create',
+    'auth' => true
 ]);
 $map->post('saveProjects','/projects/add',[
     'controller' => 'App\Controllers\ProjectsController',
-    'action' => 'store'
+    'action' => 'store',
+    'auth' => true
 ]);
 $map->get('addUsers','/users/add',[
     'controller' => 'App\Controllers\UsersController',
-    'action' => 'create'
+    'action' => 'create',
+    'auth' => true
 ]);
 $map->post('saveUsers','/users/add',[
     'controller' => 'App\Controllers\UsersController',
-    'action' => 'store'
+    'action' => 'store',
+    'auth' => true
 ]);
 $map->get('loginForm','/login',[
     'controller' => 'App\Controllers\AuthController',
@@ -77,13 +86,22 @@ $map->post('auth','/auth',[
     'controller' => 'App\Controllers\AuthController',
     'action' => 'check'
 ]);
+$map->get('admin','/admin',[
+    'controller' => 'App\Controllers\AdminController',
+    'action' => 'index',
+    'auth' => true
+]);
+$map->get('logout','/logout',[
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'logout'
+]);
+$map->get('error403','/error403',[
+    'controller' => 'App\Controllers\ErrorsController',
+    'action' => 'error403'
+]);
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 function printElement($job) {
-    /* if($job->visible == false) {
-      return;
-    } */
-  
     echo '<li class="work-position">';
     echo '<h5>' . $job->title. '</h5>';
     echo '<p>' . $job->description . '</p>';
@@ -102,8 +120,13 @@ if(!$route){
     $handlerData = $route->handler;
     $controllerName = $handlerData['controller'];
     $actionName = $handlerData['action'];
+    $needsAuth = $handlerData['auth'] ?? false;
     $controller = new $controllerName;
-    $response = $controller->$actionName($request);
+    if($needsAuth && !(isset($_SESSION['userId'])) ){
+        $response = new RedirectResponse('/error403');
+    }else{
+        $response = $controller->$actionName($request);
+    }
     foreach ($response->getHeaders() as $name => $values) {
         foreach ($values as $value) {
             header(sprintf('%s: %s',$name,$value), false);
