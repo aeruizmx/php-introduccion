@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use Zend\Diactoros\Response\RedirectResponse;
 
 class AuthController extends BaseController{
     
@@ -11,17 +12,18 @@ class AuthController extends BaseController{
     }
 
     public function check($request){
+        $responseMessage = '';
         $postData = $request->getParsedBody();
         $user = User::where('email','=',$postData['email'])->first();
         if($user){
             if(\password_verify($postData['password'],$user->password)){
-                echo 'Credenciales !';
+                return new RedirectResponse('/admin');
             }else{
-                echo 'Credenciales incorrectas!';
+                $responseMessage = 'Credenciales incorrectas!';
             }
         }else{
-            echo 'Credenciales incorrectas!';
+            $responseMessage = 'Credenciales incorrectas!';
         }
-        return $this->renderHTML('login.twig');
+        return $this->renderHTML('login.twig', ['responseMessage'=>$responseMessage]);
     }
 }

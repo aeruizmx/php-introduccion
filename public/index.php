@@ -104,5 +104,11 @@ if(!$route){
     $actionName = $handlerData['action'];
     $controller = new $controllerName;
     $response = $controller->$actionName($request);
+    foreach ($response->getHeaders() as $name => $values) {
+        foreach ($values as $value) {
+            header(sprintf('%s: %s',$name,$value), false);
+        }
+    }
+    http_response_code($response->getStatusCode());
     echo $response->getBody();
 }
