@@ -69,6 +69,14 @@ $map->post('saveUsers','/users/add',[
     'controller' => 'App\Controllers\UsersController',
     'action' => 'store'
 ]);
+$map->get('loginForm','/login',[
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'index'
+]);
+$map->post('auth','/auth',[
+    'controller' => 'App\Controllers\AuthController',
+    'action' => 'check'
+]);
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 function printElement($job) {
