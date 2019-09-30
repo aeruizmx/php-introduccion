@@ -4,13 +4,14 @@
     <div class="alert alert-primary" role="alert">
     {{ responseMessage }}
     </div>
-    <form action="/jobs/add" method="post" >
+    <form action="/jobs/add" method="post" enctype="multipart/form-data" >
         <label for="">Title:</label>
         <input type="text" name="title" ><br>
         <label for="">Description:</label>
         <input type="text" name="description"><br>
         <label for="">Meses:</label>
         <input type="numeric" name="months"><br>
+        <input type="file" name="logo"><br>
         <button type="submit">Save</button>
     </form>
 {% endblock %}
