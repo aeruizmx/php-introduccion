@@ -5,12 +5,27 @@ namespace App\Controllers;
 use Respect\Validation\Validator as v;
 
 use App\models\Job;
+use Zend\Diactoros\Response\RedirectResponse;
+use Zend\Diactoros\ServerRequest;
 
 class JobsController extends BaseController{
     
+    public function index(){
+        $jobs = Job::all();
+        return $this->renderHTML('jobs/index.twig', compact( 'jobs'));
+    }
+
+    public function delete(ServerRequest $request){
+        $params = $request->getQueryParams();
+        $job = Job::findOrFail($params['id']);
+        $job->delete();
+        return new RedirectResponse('/jobs');
+    }
+
     public function create(){
         return $this->renderHTML('addJob.twig');
     }
+
     public function store($request){
         $responseMessage = '';
         if($request->getMethod() == 'POST'){
@@ -44,4 +59,6 @@ class JobsController extends BaseController{
         } 
         return $this->renderHTML('addJob.twig', ['responseMessage'=>$responseMessage]);
     }
+
+    
 }
