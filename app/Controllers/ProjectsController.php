@@ -25,13 +25,14 @@ class ProjectsController extends BaseController{
                 if($logo->getError() == UPLOAD_ERR_OK) {
                     $fileName = $logo->getClientFilename();
                     $logo->moveTo("uploads/$fileName");
+                    $filePath = "uploads/$fileName";
                     $jobValidator->assert($postData);
                     $project = new Project();
                     $project->title = $postData['title'];
                     $project->description = $postData['description'];
                     $project->months = $postData['months'];
                     $project->visible = true;
-                    $project->file = $fileName;
+                    $project->file = $filePath;
                     $project->save();
                     $responseMessage = 'Se guardo con exito!';
                 }else{

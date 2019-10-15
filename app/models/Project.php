@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasDefaultImage;
 
 class Project extends Model{
+    use HasDefaultImage;
     
     protected $table = 'projects';
 
