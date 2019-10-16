@@ -18,6 +18,8 @@ use Zend\Diactoros\Response\RedirectResponse;
 
 $capsule = new Capsule;
 
+$container = new DI\Container();
+
 $capsule->addConnection([
     'driver'    => 'mysql',
     'host'      => getenv('DB_HOST'),
@@ -114,19 +116,6 @@ $map->get('error403','/error403',[
 ]);
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
-function printElement($job) {
-    echo '<li class="work-position">';
-    echo '<h5>' . $job->title. '</h5>';
-    echo '<p>' . $job->description . '</p>';
-    echo '<p>' . $job->getDurationAsString() . '</p>';
-    echo '<strong>Achievements:</strong>';
-    echo '<ul>';
-    echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
-    echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
-    echo '<li>Lorem ipsum dolor sit amet, 80% consectetuer adipiscing elit.</li>';
-    echo '</ul>';
-    echo '</li>';
-  }
 if(!$route){
  echo 'No route';   
 }else{
@@ -134,7 +123,8 @@ if(!$route){
     $controllerName = $handlerData['controller'];
     $actionName = $handlerData['action'];
     $needsAuth = $handlerData['auth'] ?? false;
-    $controller = new $controllerName;
+    //$controller = new $controllerName;
+    $controller = $container->get($controllerName);
     if($needsAuth && !(isset($_SESSION['userId'])) ){
         $response = new RedirectResponse('/error403');
     }else{
