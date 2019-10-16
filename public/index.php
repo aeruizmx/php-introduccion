@@ -15,6 +15,12 @@ use Aura\Router\Matcher;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Aura\Router\RouterContainer;
 use Zend\Diactoros\Response\RedirectResponse;
+use WoohooLabs\Harmony\Harmony;
+use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
+use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
+use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
+use Zend\Diactoros\Response;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 $capsule = new Capsule;
 
@@ -50,91 +56,97 @@ $routerContainer = new RouterContainer();
 $map = $routerContainer->getMap();
 
 $map->get('index','/',[
-    'controller' => 'App\Controllers\IndexController',
-    'action' => 'index'
+    'App\Controllers\IndexController',
+    'index'
 ]);
 $map->get('indexJobs','/jobs',[
-    'controller' => 'App\Controllers\JobsController',
-    'action' => 'index',
+    'App\Controllers\JobsController',
+    'index',
     'auth' => true
 ]);
 $map->get('deleteJobs','/jobs/delete',[
-    'controller' => 'App\Controllers\JobsController',
-    'action' => 'delete',
+    'App\Controllers\JobsController',
+    'delete',
     'auth' => true
 ]);
 $map->get('addJobs','/jobs/add',[
-    'controller' => 'App\Controllers\JobsController',
-    'action' => 'create',
+    'App\Controllers\JobsController',
+    'create',
     'auth' => true
 ]);
 $map->post('saveJobs','/jobs/add',[
-    'controller' => 'App\Controllers\JobsController',
-    'action' => 'store',
+    'App\Controllers\JobsController',
+    'store',
     'auth' => true
 ]);
 $map->get('addProjects','/projects/add',[
-    'controller' => 'App\Controllers\ProjectsController',
-    'action' => 'create',
+    'App\Controllers\ProjectsController',
+    'create',
     'auth' => true
 ]);
 $map->post('saveProjects','/projects/add',[
-    'controller' => 'App\Controllers\ProjectsController',
-    'action' => 'store',
+    'App\Controllers\ProjectsController',
+    'store',
     'auth' => true
 ]);
 $map->get('addUsers','/users/add',[
-    'controller' => 'App\Controllers\UsersController',
-    'action' => 'create',
+    'App\Controllers\UsersController',
+    'create',
     'auth' => true
 ]);
 $map->post('saveUsers','/users/add',[
-    'controller' => 'App\Controllers\UsersController',
-    'action' => 'store',
+    'App\Controllers\UsersController',
+    'store',
     'auth' => true
 ]);
 $map->get('loginForm','/login',[
-    'controller' => 'App\Controllers\AuthController',
-    'action' => 'index'
+    'App\Controllers\AuthController',
+    'index'
 ]);
 $map->post('auth','/auth',[
-    'controller' => 'App\Controllers\AuthController',
-    'action' => 'check'
+    'App\Controllers\AuthController',
+    'check'
 ]);
 $map->get('admin','/admin',[
-    'controller' => 'App\Controllers\AdminController',
-    'action' => 'index',
+    'App\Controllers\AdminController',
+    'index',
     'auth' => true
 ]);
 $map->get('logout','/logout',[
-    'controller' => 'App\Controllers\AuthController',
-    'action' => 'logout'
+    'App\Controllers\AuthController',
+    'logout'
 ]);
 $map->get('error403','/error403',[
-    'controller' => 'App\Controllers\ErrorsController',
-    'action' => 'error403'
+    'App\Controllers\ErrorsController',
+    'error403'
 ]);
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 if(!$route){
  echo 'No route';   
 }else{
-    $handlerData = $route->handler;
-    $controllerName = $handlerData['controller'];
-    $actionName = $handlerData['action'];
-    $needsAuth = $handlerData['auth'] ?? false;
+    // $handlerData = $route->handler;
+    // $controllerName = $handlerData['controller'];
+    // $actionName = $handlerData['action'];
+    // $needsAuth = $handlerData['auth'] ?? false;
+    $harmony = new Harmony($request, new Response());
+    $harmony
+        ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+        ->addMiddleware(new Middlewares\AuraRouter($routerContainer))
+        ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
+        ->run();
     //$controller = new $controllerName;
-    $controller = $container->get($controllerName);
-    if($needsAuth && !(isset($_SESSION['userId'])) ){
-        $response = new RedirectResponse('/error403');
-    }else{
-        $response = $controller->$actionName($request);
-    }
-    foreach ($response->getHeaders() as $name => $values) {
-        foreach ($values as $value) {
-            header(sprintf('%s: %s',$name,$value), false);
-        }
-    }
-    http_response_code($response->getStatusCode());
-    echo $response->getBody();
+    // $controller = $container->get($controllerName);
+    // if($needsAuth && !(isset($_SESSION['userId'])) ){
+    //     $response = new RedirectResponse('/error403');
+    // }else{
+    //     $response = $controller->$actionName($request);
+    // }
+    // foreach ($response->getHeaders() as $name => $values) {
+    //     foreach ($values as $value) {
+    //         header(sprintf('%s: %s',$name,$value), false);
+    //     }
+    // }
+    // http_response_code($response->getStatusCode());
+    // echo $response->getBody();
 }
