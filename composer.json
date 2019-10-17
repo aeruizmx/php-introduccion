@@ -17,6 +17,7 @@
         "middlewares/aura-router": "^1.1",
         "filp/whoops": "^2.5",
         "franzl/whoops-middleware": "^1.1",
-        "monolog/monolog": "^2.0"
+        "monolog/monolog": "^2.0",
+        "robmorgan/phinx": "^0.11.1"
     }
 }
