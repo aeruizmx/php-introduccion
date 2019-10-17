@@ -11,15 +11,17 @@ session_start();
 $dotenv = Dotenv\Dotenv::create(__DIR__.'/..');
 $dotenv->load();
 
+use App\Middlewares\AuthenticationMiddleware;
 use Aura\Router\Matcher;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Aura\Router\RouterContainer;
-use Zend\Diactoros\Response\RedirectResponse;
+
 use WoohooLabs\Harmony\Harmony;
 use WoohooLabs\Harmony\Middleware\FastRouteMiddleware;
 use WoohooLabs\Harmony\Middleware\DispatcherMiddleware;
 use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
 use Zend\Diactoros\Response;
+use Zend\Diactoros\Response\EmptyResponse;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 $capsule = new Capsule;
@@ -125,16 +127,26 @@ $route = $matcher->match($request);
 if(!$route){
  echo 'No route';   
 }else{
+    try{
+        $harmony = new Harmony($request, new Response());
+        $harmony
+            ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+            ->addMiddleware(new AuthenticationMiddleware())
+            ->addMiddleware(new Middlewares\AuraRouter($routerContainer))
+            ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
+            ->run();
+    }catch(Exception $e){
+        $emitter = new SapiEmitter();
+        $emitter->emit(new EmptyResponse(400));
+    }catch(Error $e){
+        $emitter = new SapiEmitter();
+        $emitter->emit(new EmptyResponse(500));
+    }
     // $handlerData = $route->handler;
     // $controllerName = $handlerData['controller'];
     // $actionName = $handlerData['action'];
     // $needsAuth = $handlerData['auth'] ?? false;
-    $harmony = new Harmony($request, new Response());
-    $harmony
-        ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
-        ->addMiddleware(new Middlewares\AuraRouter($routerContainer))
-        ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
-        ->run();
+    
     //$controller = new $controllerName;
     // $controller = $container->get($controllerName);
     // if($needsAuth && !(isset($_SESSION['userId'])) ){
