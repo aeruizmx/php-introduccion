@@ -26,6 +26,7 @@ return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'PhpDocReader\\' => array($vendorDir . '/php-di/phpdoc-reader/src/PhpDocReader'),
+    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Middlewares\\Utils\\' => array($vendorDir . '/middlewares/utils/src'),
     'Middlewares\\' => array($vendorDir . '/middlewares/aura-router/src'),
     'Invoker\\' => array($vendorDir . '/php-di/invoker/src'),

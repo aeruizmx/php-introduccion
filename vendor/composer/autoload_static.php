@@ -63,6 +63,7 @@ class ComposerStaticInit3158b51cefd1824e0209402369543171
         ),
         'M' => 
         array (
+            'Monolog\\' => 8,
             'Middlewares\\Utils\\' => 18,
             'Middlewares\\' => 12,
         ),
@@ -177,6 +178,10 @@ class ComposerStaticInit3158b51cefd1824e0209402369543171
         'PhpDocReader\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-di/phpdoc-reader/src/PhpDocReader',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Middlewares\\Utils\\' => 
         array (
