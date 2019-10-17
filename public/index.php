@@ -23,6 +23,7 @@ use WoohooLabs\Harmony\Middleware\HttpHandlerRunnerMiddleware;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\EmptyResponse;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+use Franzl\Middleware\Whoops\WhoopsMiddleware;
 
 $capsule = new Capsule;
 
@@ -131,6 +132,7 @@ if(!$route){
         $harmony = new Harmony($request, new Response());
         $harmony
             ->addMiddleware(new HttpHandlerRunnerMiddleware(new SapiEmitter()))
+            ->addMiddleware(new \Franzl\Middleware\Whoops\WhoopsMiddleware)
             ->addMiddleware(new AuthenticationMiddleware())
             ->addMiddleware(new Middlewares\AuraRouter($routerContainer))
             ->addMiddleware(new DispatcherMiddleware($container, 'request-handler'))
