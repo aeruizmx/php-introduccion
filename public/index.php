@@ -129,6 +129,14 @@ $map->get('error403','/error403',[
     'App\Controllers\ErrorsController',
     'error403'
 ]);
+$map->get('contactForm','/contact',[
+    'App\Controllers\ContactController',
+    'index'
+]);
+$map->post('contactSend','/contact/send',[
+    'App\Controllers\ContactController',
+    'send'
+]);
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 if(!$route){
