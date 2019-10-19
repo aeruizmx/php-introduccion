@@ -8,15 +8,15 @@ environments:
     production:
         adapter: mysql
         host: localhost
-        name: production_db
-        user: root
-        pass: ''
+        name: cursophp
+        user: homestead
+        pass: secret
         port: 3306
         charset: utf8
 
     development:
         adapter: mysql
-        host: localhost
+        host: 192.168.10.10
         name: cursophp
         user: homestead
         pass: 'secret'
@@ -26,9 +26,9 @@ environments:
     testing:
         adapter: mysql
         host: localhost
-        name: testing_db
-        user: root
-        pass: ''
+        name: cursophp
+        user: homestead
+        pass: secret
         port: 3306
         charset: utf8
 

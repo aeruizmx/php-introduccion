@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class CreateUsersTable extends AbstractMigration
+class CreateMessagesTable extends AbstractMigration
 {
     /**
      * Change Method.
@@ -31,12 +31,14 @@ class CreateUsersTable extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('users');
-        $table->addColumn('email', 'string')
-              ->addColumn('password', 'string')
+        $table = $this->table('messages');
+        $table->addColumn('name', 'string')
+              ->addColumn('email', 'string')
+              ->addColumn('message', 'string')
+              ->addColumn('send', 'boolean')
               ->addColumn('created_at', 'datetime')
               ->addColumn('updated_at', 'datetime')
-              ->addColumn('deleted_at', 'datetime')
+              ->addColumn('deleted_at', 'datetime', ['null' => true])
               ->create();
     }
 }
