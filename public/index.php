@@ -137,6 +137,14 @@ $map->post('contactSend','/contact/send',[
     'App\Controllers\ContactController',
     'send'
 ]);
+$map->get('change','/admin/password',[
+    'App\Controllers\AdminController',
+    'change'
+]);
+$map->post('changePassword','/admin/password',[
+    'App\Controllers\AdminController',
+    'changePass'
+]);
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
 if(!$route){
